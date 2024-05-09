@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Grafo2 {
+public class Grafo {
 
 	private int[][] matrizDePesos;
 	private int numVertices;
 	private boolean[][] A;
+	private Kruskal kruskal;
 
-	public Grafo2(int vertices) {
+	public Grafo(int vertices) {
 		this.matrizDePesos = new int[vertices][vertices];
 		this.numVertices = matrizDePesos.length;
 		this.A = new boolean[vertices][vertices];
+		this.kruskal = new Kruskal();
 		inicializarMatrizAdyPesos();
 		inicializarMatrizAdy();
-		vecinos();
+		limitrofes();
 	}
 	
 	public int tamano()
@@ -40,7 +42,7 @@ public class Grafo2 {
 		}
 	}
 	
-	private void vecinos() {
+	private void limitrofes() {
 		A[0][1] = true;
 		A[1][0] = true;
 		A[1][2] = true;
@@ -143,23 +145,23 @@ public class Grafo2 {
 		matrizDePesos[j][i] = peso;
 	}
 	
+	public int[][] devolverMatrizPesos() {
+		int[][] pesos = matrizDePesos;
+		return pesos;
+	}
+	
 	public int pesoArista(int p1, int p2, int peso) {
 		if (!existeArista(p1, p2)) {
 			//throw new RuntimeException("La arista no existe.");
 			return -1;
 		}
+		else if (peso == 0) {
+			return -2;
+		}
 		else if (matrizDePesos[p1][p2] != 0) {
 			return 0;
 		}
 		agregarPesoArista(p1, p2, peso);
-		/*
-		if (!verticesAgregados.contains(p1)) {
-			verticesAgregados.add(p1);
-		}
-		if (!verticesAgregados.contains(p2)) {
-			verticesAgregados.add(p2);
-		}
-		*/
 		System.out.println("se agrego arista con peso " + peso);
 		return 1;
 	}
@@ -181,13 +183,14 @@ public class Grafo2 {
 	
 	public boolean existeArista(int i, int j)
 	{
-		//verificarVertice(i);
-		//verificarVertice(j);
-		//verificarDistintos(i, j);
-		
 		return A[i][j];
 	}
+	
+	public List<Arista> kruskal() {
+		return kruskal.kruskal(numVertices, devolverMatrizPesos());	
+	}
 
+	/*
 	public List<Arista> obtenerTodasLasAristas() {
 		List<Arista> aristas = new ArrayList<>();
 		for (int i = 0; i < numVertices; i++) {
@@ -218,6 +221,7 @@ public class Grafo2 {
 		}
 		return agm; //Lista de aristas del arbol generador minimo
 	}
+	*/
 	
 	/*
 	public void aMatrizAdy(List<Arista> agm) { //la lista de aristas pasada tiene que ser la del agm

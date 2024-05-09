@@ -37,7 +37,7 @@ public class Interfaz {
 						entreRios, sanJuan, sanLuis, buenosAires, caba, mendoza, laPampa, neuquen, rioNegro, chubut, santaCruz, tierra;
 	
 	private ArrayList<MapPolygon> lineas;
-	private Grafo2 grafo2;
+	private Grafo grafo;
 	private List<Arista> aristasAgm;
 	private JPanel panelMapa, panelGeneral, panel2;
 	private JTextField text_p1, text_p2;
@@ -48,6 +48,7 @@ public class Interfaz {
 	private JButton btnNewButton, bot_agregar;
 	private JTextPane infoProvincias;
 	private JButton b_reiniciar;
+	private Kruskal kruskal;
 
 	/**
 	 * Launch the application.
@@ -142,7 +143,7 @@ public class Interfaz {
 		
 		lineas = new ArrayList<MapPolygon>();
 		
-		grafo2 = new Grafo2(24);
+		grafo = new Grafo(24);
 		
 		jujuy = new Coordinate(-23.025768, -65.944995); //jujuy 0
 		
@@ -267,7 +268,7 @@ public class Interfaz {
 		b_reiniciar = new JButton("Reiniciar");
 		b_reiniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				grafo2.inicializarMatrizAdyPesos();
+				grafo.inicializarMatrizAdyPesos();
 				removerLineas();
 				crearUniones();
 			}
@@ -287,9 +288,9 @@ public class Interfaz {
     }
 	
 	private void crearUniones() {
-		for (int i = 0; i < grafo2.tamano(); i++) {
-			for (int j = 0; j < grafo2.tamano(); j++) {
-				if (grafo2.existeArista(i, j)) {
+		for (int i = 0; i < grafo.tamano(); i++) {
+			for (int j = 0; j < grafo.tamano(); j++) {
+				if (grafo.existeArista(i, j)) {
 					MapPolygon poligono = new MapPolygonImpl(createLine(provincias.get(i), provincias.get(j)));
 					mapa.addMapPolygon(poligono);
 					lineas.add(poligono);
@@ -299,18 +300,18 @@ public class Interfaz {
 	}
 	
 	private void agregarPesoArista() {
-		if (grafo2.pesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == 0) {
+		if (grafo.pesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == 0) {
 			cartel_error2.setVisible(true);
 		}
 		
-		else if(grafo2.pesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == -1) {
+		else if(grafo.pesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == -1) {
 			cartel_error.setVisible(true);
 		}
 	}
 	
 	private void ejecutarAGM() {
 		removerLineas();
-		aristasAgm = grafo2.kruskal();
+		aristasAgm = grafo.kruskal();
 		for (int i = 0; i < aristasAgm.size(); i++) {
 				MapPolygon poligono = new MapPolygonImpl(createLine(provincias.get(aristasAgm.get(i).getOrigen()), provincias.get(aristasAgm.get(i).getDestino())));
 				mapa.addMapPolygon(poligono);
