@@ -18,6 +18,15 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Color;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
+import javax.swing.UIManager;
+
+import java.awt.Font;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 public class Interfaz {
 
@@ -27,12 +36,18 @@ public class Interfaz {
 	private Coordinate jujuy, salta, formosa, catamarca, tucuman, santiago, chaco, corrientes, misiones, santaFe, laRioja, cordoba, 
 						entreRios, sanJuan, sanLuis, buenosAires, caba, mendoza, laPampa, neuquen, rioNegro, chubut, santaCruz, tierra;
 	
-	private Grafo grafo;
+	private ArrayList<MapPolygon> lineas;
+	private Grafo2 grafo2;
+	private List<Arista> aristasAgm;
 	private JPanel panelMapa, panelGeneral, panel2;
 	private JTextField text_p1, text_p2;
-	private JLabel l_y;
-	private JLabel lblNewLabel;
+	private JLabel l_y, agregarPeso, lblNewLabel;
 	private JTextField text_peso;
+	private JLabel cartel_error;
+	private JLabel cartel_error2;
+	private JButton btnNewButton, bot_agregar;
+	private JTextPane infoProvincias;
+	private JButton b_reiniciar;
 
 	/**
 	 * Launch the application.
@@ -54,6 +69,12 @@ public class Interfaz {
 	 * Create the application.
 	 */
 	public Interfaz() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		initialize();
 	}
 
@@ -62,9 +83,8 @@ public class Interfaz {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 600);
+		frame.setBounds(100, 100, 800, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//panelMapa.add(mapa);
 		
 		
 		panel2 = new JPanel();
@@ -74,12 +94,19 @@ public class Interfaz {
 		panel2.setLayout(null);
 		
 		mapa = new JMapViewer();
-		mapa.setBounds(0, 0, 444, 561);
+		mapa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				e.consume();
+			}
+		});
+		
+		
+		mapa.setBounds(0, 0, 444, 661);
 		mapa.setAlignmentY(Component.TOP_ALIGNMENT);
 		mapa.setAlignmentX(Component.LEFT_ALIGNMENT);
 		mapa.setPreferredSize(new Dimension(500, 600));
 		mapa.setZoomControlsVisible(false);
-		//mapa.setBounds(0, 0, 0, 600);
 		
 		panel2.add(mapa);
 		
@@ -93,7 +120,7 @@ public class Interfaz {
 		panel2.add(text_p2);
 		text_p2.setColumns(10);
 		
-		JLabel agregarPeso = new JLabel("Agregar peso arista entre:");
+		agregarPeso = new JLabel("Agregar peso arista entre:");
 		agregarPeso.setBounds(454, 11, 160, 26);
 		panel2.add(agregarPeso);
 		
@@ -110,17 +137,12 @@ public class Interfaz {
 		panel2.add(text_peso);
 		text_peso.setColumns(10);
 		
-		JButton bot_agregar = new JButton("Agregar");
-		bot_agregar.setBackground(new Color(217, 217, 217));
-		bot_agregar.setBorderPainted(false);
-		bot_agregar.setBounds(674, 103, 89, 23);
-		panel2.add(bot_agregar);
-
-
 		
 		provincias = new ArrayList<Coordinate>();
 		
-		grafo = new Grafo(24);
+		lineas = new ArrayList<MapPolygon>();
+		
+		grafo2 = new Grafo2(24);
 		
 		jujuy = new Coordinate(-23.025768, -65.944995); //jujuy 0
 		
@@ -189,11 +211,71 @@ public class Interfaz {
         	mapa.addMapPolygon(poligono); 
 		}
 		*/
+		
+		
+		cartel_error = new JLabel("No son limitrofes!");
+		cartel_error.setVisible(false);
+		cartel_error.setFont(new Font("Arial", Font.BOLD, 9));
+		cartel_error.setBounds(578, 79, 89, 30);
+		panel2.add(cartel_error);
+		
+		cartel_error2 = new JLabel("Ya tiene peso!");
+		cartel_error2.setFont(new Font("Arial", Font.BOLD, 9));
+		cartel_error2.setVisible(false);
+		cartel_error2.setBounds(578, 87, 86, 14);
+		panel2.add(cartel_error2);
+		
 	
-	
+		bot_agregar = new JButton("Agregar");
+		bot_agregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cartel_error.setVisible(false);
+				cartel_error2.setVisible(false);
+				agregarPesoArista();
+			}
+		});
+		bot_agregar.setBackground(new Color(217, 217, 217));
+		bot_agregar.setBorderPainted(false);
+		bot_agregar.setBounds(674, 103, 89, 23);
+		panel2.add(bot_agregar);
 		
+		infoProvincias = new JTextPane();
+		infoProvincias.setBackground(new Color(192, 192, 192));
+		infoProvincias.setEditable(false);
+		infoProvincias.setText("Informacion sobre la referencia a provincias:\n"
+				+ "Jujuy = 0\n" + "Salta = 1\n" + "Formosa = 2\n" + "Catamarca = 3\n" + "Tucuman = 4\n" + "Santiago del Estero = 5\n" + "Chaco = 6\n"
+				+ "Corrientes = 7\n" + "Misiones = 8\n" + "Santa Fe = 9\n" + "La Rioja = 10\n" + "Cordoba = 11\n" + "Entre Rios = 12\n" + "San Juan = 13\n"
+				+ "San Luis = 14\n" + "Buenos Aires = 15\n" + "CABA = 16\n" + "Mendoza = 17\n" + "La Pampa = 18\n" + "Neuquen = 19\n" + "Rio Negro = 20\n"
+				+ "Chubut = 21\n" + "Santa Cruz = 22\n" + "Tierra Del Fuego = 23");
+		infoProvincias.setBounds(454, 163, 221, 453);
+		panel2.add(infoProvincias);
 		
+
 		
+		btnNewButton = new JButton("Generar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ejecutarAGM();
+			}
+		});
+		btnNewButton.setBackground(new Color(217, 217, 217));
+		btnNewButton.setBorderPainted(false);
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnNewButton.setBounds(685, 627, 89, 23);
+		panel2.add(btnNewButton);
+		
+		b_reiniciar = new JButton("Reiniciar");
+		b_reiniciar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				grafo2.inicializarMatrizAdyPesos();
+				removerLineas();
+				crearUniones();
+			}
+		});
+		b_reiniciar.setBorderPainted(false);
+		b_reiniciar.setBackground(new Color(217, 217, 217));
+		b_reiniciar.setBounds(454, 627, 89, 23);
+		panel2.add(b_reiniciar);
 	}
 	
 	private static List<Coordinate> createLine(Coordinate start, Coordinate end) {
@@ -205,22 +287,41 @@ public class Interfaz {
     }
 	
 	private void crearUniones() {
-		for (int i = 0; i < grafo.tamano(); i++) {
-			for (int j = 0; j < grafo.tamano(); j++) {
-				if (grafo.existeArista(i, j)) {
+		for (int i = 0; i < grafo2.tamano(); i++) {
+			for (int j = 0; j < grafo2.tamano(); j++) {
+				if (grafo2.existeArista(i, j)) {
 					MapPolygon poligono = new MapPolygonImpl(createLine(provincias.get(i), provincias.get(j)));
 					mapa.addMapPolygon(poligono);
+					lineas.add(poligono);
 				}
 			}
 		}
 	}
 	
 	private void agregarPesoArista() {
+		if (grafo2.pesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == 0) {
+			cartel_error2.setVisible(true);
+		}
 		
+		else if(grafo2.pesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == -1) {
+			cartel_error.setVisible(true);
+		}
 	}
 	
 	private void ejecutarAGM() {
+		removerLineas();
+		aristasAgm = grafo2.kruskal();
+		for (int i = 0; i < aristasAgm.size(); i++) {
+				MapPolygon poligono = new MapPolygonImpl(createLine(provincias.get(aristasAgm.get(i).getOrigen()), provincias.get(aristasAgm.get(i).getDestino())));
+				mapa.addMapPolygon(poligono);
+				lineas.add(poligono);
+		}
 		
+		
+	}
+	
+	private void removerLineas() {
+		mapa.removeAllMapPolygons();
 	}
 	
 	private void listaProvincias() {
