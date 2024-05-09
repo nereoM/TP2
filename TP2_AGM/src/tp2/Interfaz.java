@@ -10,6 +10,14 @@ import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
+import javax.swing.JPanel;
+import java.awt.FlowLayout;
+import java.awt.Dimension;
+import java.awt.Component;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import java.awt.Color;
+import javax.swing.JButton;
 
 public class Interfaz {
 
@@ -19,7 +27,12 @@ public class Interfaz {
 	private Coordinate jujuy, salta, formosa, catamarca, tucuman, santiago, chaco, corrientes, misiones, santaFe, laRioja, cordoba, 
 						entreRios, sanJuan, sanLuis, buenosAires, caba, mendoza, laPampa, neuquen, rioNegro, chubut, santaCruz, tierra;
 	
-	private Grafo vecinos;
+	private Grafo grafo;
+	private JPanel panelMapa, panelGeneral, panel2;
+	private JTextField text_p1, text_p2;
+	private JLabel l_y;
+	private JLabel lblNewLabel;
+	private JTextField text_peso;
 
 	/**
 	 * Launch the application.
@@ -51,11 +64,63 @@ public class Interfaz {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//panelMapa.add(mapa);
+		
+		
+		panel2 = new JPanel();
+		panel2.setBackground(new Color(192, 192, 192));
+		panel2.setBounds(0, 0, 400, 600);
+		frame.getContentPane().add(panel2);
+		panel2.setLayout(null);
 		
 		mapa = new JMapViewer();
+		mapa.setBounds(0, 0, 444, 561);
+		mapa.setAlignmentY(Component.TOP_ALIGNMENT);
+		mapa.setAlignmentX(Component.LEFT_ALIGNMENT);
+		mapa.setPreferredSize(new Dimension(500, 600));
 		mapa.setZoomControlsVisible(false);
+		//mapa.setBounds(0, 0, 0, 600);
+		
+		panel2.add(mapa);
+		
+		text_p1 = new JTextField();
+		text_p1.setBounds(464, 48, 86, 20);
+		panel2.add(text_p1);
+		text_p1.setColumns(10);
+		
+		text_p2 = new JTextField();
+		text_p2.setBounds(593, 48, 86, 20);
+		panel2.add(text_p2);
+		text_p2.setColumns(10);
+		
+		JLabel agregarPeso = new JLabel("Agregar peso arista entre:");
+		agregarPeso.setBounds(454, 11, 160, 26);
+		panel2.add(agregarPeso);
+		
+		l_y = new JLabel("y");
+		l_y.setBounds(568, 41, 27, 34);
+		panel2.add(l_y);
+		
+		lblNewLabel = new JLabel("Peso:");
+		lblNewLabel.setBounds(454, 87, 46, 14);
+		panel2.add(lblNewLabel);
+		
+		text_peso = new JTextField();
+		text_peso.setBounds(504, 84, 46, 20);
+		panel2.add(text_peso);
+		text_peso.setColumns(10);
+		
+		JButton bot_agregar = new JButton("Agregar");
+		bot_agregar.setBackground(new Color(217, 217, 217));
+		bot_agregar.setBorderPainted(false);
+		bot_agregar.setBounds(674, 103, 89, 23);
+		panel2.add(bot_agregar);
+
+
 		
 		provincias = new ArrayList<Coordinate>();
+		
+		grafo = new Grafo(24);
 		
 		jujuy = new Coordinate(-23.025768, -65.944995); //jujuy 0
 		
@@ -115,15 +180,20 @@ public class Interfaz {
 			mapa.addMapMarker(new MapMarkerDot(p));
 		}
 		
+		crearUniones();
+		/*
         for (int i = 0; i < provincias.size() - 1; i++) {
         	Coordinate start = provincias.get(i);
         	Coordinate end = provincias.get(i + 1);
         	MapPolygon poligono = new MapPolygonImpl(createLine(start, end));
         	mapa.addMapPolygon(poligono); 
 		}
+		*/
 	
 	
-		frame.getContentPane().add(mapa);
+		
+		
+		
 	}
 	
 	private static List<Coordinate> createLine(Coordinate start, Coordinate end) {
@@ -133,6 +203,25 @@ public class Interfaz {
         linePoints.add(end);
         return linePoints;
     }
+	
+	private void crearUniones() {
+		for (int i = 0; i < grafo.tamano(); i++) {
+			for (int j = 0; j < grafo.tamano(); j++) {
+				if (grafo.existeArista(i, j)) {
+					MapPolygon poligono = new MapPolygonImpl(createLine(provincias.get(i), provincias.get(j)));
+					mapa.addMapPolygon(poligono);
+				}
+			}
+		}
+	}
+	
+	private void agregarPesoArista() {
+		
+	}
+	
+	private void ejecutarAGM() {
+		
+	}
 	
 	private void listaProvincias() {
 		provincias.add(jujuy);
@@ -160,5 +249,4 @@ public class Interfaz {
 		provincias.add(santaCruz);
 		provincias.add(tierra);
 	}
-
 }

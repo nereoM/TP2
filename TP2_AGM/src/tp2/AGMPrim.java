@@ -3,10 +3,16 @@ package tp2;
 import java.util.*;
 
 public class AGMPrim {
-    private static final int INF = Integer.MAX_VALUE;
+    private final int INF;
+    private boolean[][] agm;
+    
+    public AGMPrim() {
+    	inicializarMatrizAdy();
+    	INF = Integer.MAX_VALUE;
+    }
 
     // Método para encontrar el árbol generador mínimo utilizando el algoritmo de Prim
-    public static List<Integer> primMST(Grafo grafo) {
+    public void primMST(Grafo grafo) {
     	/*
         int cantVertices = grafo.tamano(); // Número de nodos
         boolean[] marcados = new boolean[cantVertices]; // Array para marcar nodos visitados
@@ -61,7 +67,7 @@ public class AGMPrim {
     	
         int cantVertices = grafo.tamano();
         Set<Integer> marcados = new HashSet<>();
-        List<Integer> agm = new ArrayList<>();
+        //List<Integer> agm = new ArrayList<>();
 
         // Inicializar el conjunto de vértices incluidos
         marcados.add(0);
@@ -84,18 +90,29 @@ public class AGMPrim {
 
             // Agregar el vértice y la arista al árbol generador mínimo
             marcados.add(verticeAdy);
-            agm.add(verticeMin);
-            agm.add(verticeAdy);
+            //agm.add(verticeMin);
+            //agm.add(verticeAdy);
+            agm[verticeMin][verticeAdy] = true;
+            
         }
 
-        return agm;
+       // return agm;
     	
     	
     	
     	
     	
     }
+    
+    private void inicializarMatrizAdy() {
+		for (int i = 0; i < 24; i++) {
+		    for (int j = 0; j < 24; j++) {
+		        this.agm[i][j] = false;
+		    }
+		}
+	}
 
+    /*
     // Método para encontrar el vértice con la clave mínima no incluido en el AGM
     private static int claveMin(int[] clave, boolean[] marcado) {
         int min = INF;
@@ -110,5 +127,6 @@ public class AGMPrim {
 
         return minIndice;
     }
+    */
     
 }

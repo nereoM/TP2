@@ -13,6 +13,7 @@ public class Grafo
 	public Grafo(int vertices)
 	{
 		adyacenciaPesos = new int[vertices][vertices];
+		this.A = new boolean[vertices][vertices];
 		inicializarMatrizAdy();
 		agregarVecinos();
 	}
@@ -20,7 +21,7 @@ public class Grafo
 	private void inicializarMatrizAdy() {
 		for (int i = 0; i < 24; i++) {
 		    for (int j = 0; j < 24; j++) {
-		        A[i][j] = false;
+		        this.A[i][j] = false;
 		    }
 		}
 	}
@@ -142,14 +143,11 @@ public class Grafo
 	// Informa si existe la arista especificada
 	public boolean existeArista(int i, int j)
 	{
-		verificarVertice(i);
-		verificarVertice(j);
-		verificarDistintos(i, j);
+		//verificarVertice(i);
+		//verificarVertice(j);
+		//verificarDistintos(i, j);
 		
-		if (adyacenciaPesos[i][j] != 0) {
-			return true;
-		}
-		return false;
+		return A[i][j];
 	}
 
 	// Cantidad de vertices
