@@ -8,10 +8,12 @@ public class Grafo {
 
 	private int[][] matrizDePesos;
 	private int numVertices;
+	private boolean[][] matrizAdy;
 
 	public Grafo(int vertices) {
 		this.matrizDePesos = new int[vertices][vertices];
 		this.numVertices = matrizDePesos.length;
+		this.matrizAdy = new boolean[vertices][vertices];
 	}
 
 	public void agregarAristaConPeso(int i, int j, int peso) {
@@ -49,6 +51,16 @@ public class Grafo {
 		}
 		return agm; //Lista de aristas del arbol generador minimo
 	}
+	
+	public void aMatrizAdy(List<Arista> agm) { //la lista de aristas pasada tiene que ser la del agm
+		for (Arista a : agm) {
+			int vOrigen = a.getOrigen();
+			int vDestino = a.getDestino();
+			
+			this.matrizAdy[vOrigen][vDestino] = true;
+			this.matrizAdy[vDestino][vOrigen] = true;
+		}
+	}
 
 	public static void main(String[] args) {
 
@@ -72,6 +84,15 @@ public class Grafo {
 
 		for (Arista a : agm) {
 			System.out.println(a.getOrigen() + " ---> " + a.getDestino() + " de peso: " + a.getPeso());
+		}
+		
+		miGrafo.aMatrizAdy(agm);
+		
+		for (int i = 0; i < miGrafo.matrizAdy.length; i++) {
+			for (int j = 0; j < miGrafo.matrizAdy[i].length; j++) {
+				System.out.print(miGrafo.matrizAdy[i][j] + " ");
+			}
+			System.out.println();
 		}
 	}
 
