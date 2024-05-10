@@ -30,7 +30,17 @@ public class GrafoAgregarPesoAristaTest {
 	}
 	
 	@Test
-	public void agregarPesoAristaOk() {
+	public void agregarPesoAristaOkTest() {
 		assertEquals(1, crearGrafo().pesoArista(15, 18, 5));
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void pesoEnVerticeNegativoTest() {
+		crearGrafo().pesoArista(-1, 0, 1);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void pesoEnMismoVerticeFalseTest() {
+		crearGrafo().pesoArista(1, 1, 25);
 	}
 }

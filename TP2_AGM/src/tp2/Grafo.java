@@ -18,7 +18,6 @@ public class Grafo {
 		this.kruskal = new Kruskal();
 		inicializarMatrizAdyPesos();
 		inicializarMatrizAdy();
-		limitrofes();
 	}
 	
 	public int tamano()
@@ -42,97 +41,13 @@ public class Grafo {
 		}
 	}
 	
-	private void limitrofes() {
-		A[0][1] = true;
-		A[1][0] = true;
-		A[1][2] = true;
-		A[1][3] = true;
-		A[1][4] = true;
-		A[1][5] = true;
-		A[1][6] = true;
-		A[2][1] = true;
-		A[2][6] = true;
-		A[3][1] = true;
-		A[3][4] = true;
-		A[3][5] = true;
-		A[3][10] = true;
-		A[3][11] = true;
-		A[4][1] = true;
-		A[4][3] = true;
-		A[4][5] = true;
-		A[5][1] = true;
-		A[5][4] = true;
-		A[5][3] = true;
-		A[5][6] = true;
-		A[5][9] = true;
-		A[5][11] = true;
-		A[6][1] = true;
-		A[6][2] = true;
-		A[6][5] = true;
-		A[6][7] = true;
-		A[6][9] = true;
-		A[7][6] = true;
-		A[7][9] = true;
-		A[7][12] = true;
-		A[7][8] = true;
-		A[8][7] = true;
-		A[9][5] = true;
-		A[9][6] = true;
-		A[9][7] = true;
-		A[9][11] = true;
-		A[9][12] = true;
-		A[9][15] = true;
-		A[10][3] = true;
-		A[10][11] = true;
-		A[10][13] = true;
-		A[10][14] = true;
-		A[11][3] = true;
-		A[11][5] = true;
-		A[11][9] = true;
-		A[11][10] = true;
-		A[11][14] = true;
-		A[11][15] = true;
-		A[11][18] = true;
-		A[12][7] = true;
-		A[12][9] = true;
-		A[12][15] = true;
-		A[13][10] = true;
-		A[13][14] = true;
-		A[13][17] = true;
-		A[14][10] = true;
-		A[14][11] = true;
-		A[14][13] = true;
-		A[14][17] = true;
-		A[14][18] = true;
-		A[15][9] = true;
-		A[15][11] = true;
-		A[15][12] = true;
-		A[15][18] = true;
-		A[15][20] = true;
-		A[15][16] = true;
-		A[16][15] = true;
-		A[17][13] = true;
-		A[17][14] = true;
-		A[17][18] = true;
-		A[17][19] = true;
-		A[18][11] = true;
-		A[18][14] = true;
-		A[18][15] = true;
-		A[18][17] = true;
-		A[18][19] = true;
-		A[18][20] = true;
-		A[19][17] = true;
-		A[19][18] = true;
-		A[19][20] = true;
-		A[20][15] = true;
-		A[20][18] = true;
-		A[20][19] = true;
-		A[20][21] = true;
-		A[21][20] = true;
-		A[21][22] = true;
-		A[22][21] = true;
-		A[22][23] = true;
-		A[23][22] = true;
+	public void agregarVecinos(int i, int j) {
+		verificarVertice(i);
+		verificarVertice(j);
+		verificarDistintos(i, j);
+		
+		A[i][j] = true;
+		A[j][i] = true;
 	}
 
 	public void agregarPesoArista(int i, int j, int peso)
@@ -183,6 +98,8 @@ public class Grafo {
 	
 	public boolean existeArista(int i, int j)
 	{
+		verificarVertice(i);
+		verificarVertice(j);
 		return A[i][j];
 	}
 	

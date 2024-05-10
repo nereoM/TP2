@@ -145,6 +145,8 @@ public class Interfaz {
 		
 		grafo = new Grafo(24);
 		
+		agregarVecinos();
+		
 		jujuy = new Coordinate(-23.025768, -65.944995); //jujuy 0
 		
 		salta = new Coordinate(-25.314132, -65.004313); //salta 1
@@ -323,6 +325,56 @@ public class Interfaz {
 	
 	private void removerLineas() {
 		mapa.removeAllMapPolygons();
+	}
+	
+	private void agregarVecinos() {
+		grafo.agregarVecinos(0, 1);
+		grafo.agregarVecinos(1, 2);
+		grafo.agregarVecinos(1, 3);
+		grafo.agregarVecinos(1, 4);
+		grafo.agregarVecinos(1, 5);
+		grafo.agregarVecinos(1, 6);
+		grafo.agregarVecinos(2, 6);
+		grafo.agregarVecinos(3, 4);
+		grafo.agregarVecinos(3, 5);
+		grafo.agregarVecinos(3, 10);
+		grafo.agregarVecinos(3, 11);
+		grafo.agregarVecinos(4, 5);
+		grafo.agregarVecinos(5, 6);
+		grafo.agregarVecinos(5, 9);
+		grafo.agregarVecinos(5, 11);
+		grafo.agregarVecinos(6, 7);
+		grafo.agregarVecinos(6, 9);
+		grafo.agregarVecinos(7, 9);
+		grafo.agregarVecinos(7, 12);
+		grafo.agregarVecinos(7, 8);
+		grafo.agregarVecinos(9, 11);
+		grafo.agregarVecinos(9, 12);
+		grafo.agregarVecinos(9, 15);
+		grafo.agregarVecinos(10, 11);
+		grafo.agregarVecinos(10, 13);
+		grafo.agregarVecinos(10, 14);
+		grafo.agregarVecinos(11, 14);
+		grafo.agregarVecinos(11, 15);
+		grafo.agregarVecinos(11, 18);
+		grafo.agregarVecinos(12, 15);
+		grafo.agregarVecinos(13, 14);
+		grafo.agregarVecinos(13, 17);
+		grafo.agregarVecinos(14, 17);
+		grafo.agregarVecinos(14, 18);
+		grafo.agregarVecinos(15, 18);
+		grafo.agregarVecinos(15, 20);
+		grafo.agregarVecinos(15, 16);
+		grafo.agregarVecinos(17, 18);
+		grafo.agregarVecinos(17, 19);
+		grafo.agregarVecinos(18, 19);
+		grafo.agregarVecinos(18, 20);
+		grafo.agregarVecinos(19, 20);
+		grafo.agregarVecinos(20, 21);
+		grafo.agregarVecinos(21, 20);
+		grafo.agregarVecinos(21, 22);
+		grafo.agregarVecinos(22, 23);
+		
 	}
 	
 	private void listaProvincias() {
