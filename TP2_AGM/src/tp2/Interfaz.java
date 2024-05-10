@@ -128,7 +128,7 @@ public class Interfaz {
 		panel2.add(text_p2);
 		text_p2.setColumns(10);
 		
-		agregarPeso = new JLabel("Agregar peso de arista entre:");
+		agregarPeso = new JLabel("Agregar similaridad entre:");
 		agregarPeso.setFont(new Font("Arial", Font.BOLD, 11));
 		agregarPeso.setBounds(454, 11, 195, 26);
 		panel2.add(agregarPeso);
@@ -138,7 +138,7 @@ public class Interfaz {
 		panel2.add(l_y);
 		
 		
-		lblNewLabel = new JLabel("Peso:");
+		lblNewLabel = new JLabel("Indice:");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 11));
 		lblNewLabel.setBounds(454, 87, 46, 14);
 		panel2.add(lblNewLabel);
@@ -199,7 +199,7 @@ public class Interfaz {
 		});
 		bot_agregar.setBackground(new Color(207, 207, 207));
 		bot_agregar.setBorderPainted(false);
-		bot_agregar.setBounds(685, 103, 89, 23);
+		bot_agregar.setBounds(685, 90, 89, 23);
 		panel2.add(bot_agregar);
 		
 		infoProvincias = new JTextPane();
@@ -211,7 +211,7 @@ public class Interfaz {
 				+ "Corrientes = 7\n" + "Misiones = 8\n" + "Santa Fe = 9\n" + "La Rioja = 10\n" + "Cordoba = 11\n" + "Entre Rios = 12\n" + "San Juan = 13\n"
 				+ "San Luis = 14\n" + "Buenos Aires = 15\n" + "CABA = 16\n" + "Mendoza = 17\n" + "La Pampa = 18\n" + "Neuquen = 19\n" + "Rio Negro = 20\n"
 				+ "Chubut = 21\n" + "Santa Cruz = 22\n" + "Tierra Del Fuego = 23");
-		infoProvincias.setBounds(454, 163, 286, 453);
+		infoProvincias.setBounds(454, 124, 286, 385);
 		panel2.add(infoProvincias);
 		
 
@@ -225,7 +225,7 @@ public class Interfaz {
 		btnNewButton.setBackground(new Color(207, 207, 207));
 		btnNewButton.setBorderPainted(false);
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnNewButton.setBounds(685, 627, 89, 23);
+		btnNewButton.setBounds(679, 526, 95, 26);
 		panel2.add(btnNewButton);
 		
 		b_reiniciar = new JButton("Reiniciar");
@@ -239,7 +239,7 @@ public class Interfaz {
 		});
 		b_reiniciar.setBorderPainted(false);
 		b_reiniciar.setBackground(new Color(207, 207, 207));
-		b_reiniciar.setBounds(454, 627, 89, 23);
+		b_reiniciar.setBounds(454, 524, 95, 26);
 		panel2.add(b_reiniciar);
 	}
 	
