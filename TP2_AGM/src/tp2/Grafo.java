@@ -26,16 +26,16 @@ public class Grafo {
 	}
 	
 	private void inicializarMatrizAdy() {
-		for (int i = 0; i < 24; i++) {
-		    for (int j = 0; j < 24; j++) {
+		for (int i = 0; i < numVertices; i++) {
+		    for (int j = 0; j < numVertices; j++) {
 		        this.A[i][j] = false;
 		    }
 		}
 	}
 	
 	public void inicializarMatrizAdyPesos() {
-		for (int i = 0; i < 24; i++) {
-		    for (int j = 0; j < 24; j++) {
+		for (int i = 0; i < numVertices; i++) {
+		    for (int j = 0; j < numVertices; j++) {
 		        this.matrizDePesos[i][j] = 0;
 		    }
 		}
@@ -66,6 +66,7 @@ public class Grafo {
 	}
 	
 	public int pesoArista(int p1, int p2, int peso) {
+		verificarDistintos(p1, p2);
 		if (!existeArista(p1, p2)) {
 			//throw new RuntimeException("La arista no existe.");
 			return -1;
