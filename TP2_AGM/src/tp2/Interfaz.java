@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
+import javax.swing.text.JTextComponent;
 
 import java.awt.Font;
 import java.awt.event.MouseMotionAdapter;
@@ -49,6 +50,7 @@ public class Interfaz {
 	private JTextPane infoProvincias;
 	private JButton b_reiniciar;
 	private int cantProvincias;
+	private Color negro;
 
 	/**
 	 * Launch the application.
@@ -84,25 +86,18 @@ public class Interfaz {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 700);
+		frame.setBounds(500, 200, 800, 700);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
 		
 		
 		panel2 = new JPanel();
-		panel2.setBackground(new Color(192, 192, 192));
+		panel2.setBackground(new Color(225, 225, 225));
 		panel2.setBounds(0, 0, 400, 600);
 		frame.getContentPane().add(panel2);
 		panel2.setLayout(null);
 		
 		mapa = new JMapViewer();
-		mapa.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				e.consume();
-			}
-		});
-		
-		
 		mapa.setBounds(0, 0, 444, 661);
 		mapa.setAlignmentY(Component.TOP_ALIGNMENT);
 		mapa.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -112,18 +107,22 @@ public class Interfaz {
 		panel2.add(mapa);
 		
 		text_p1 = new JTextField();
+		text_p1.setBackground(new Color(207, 207, 207));
+		text_p1.setFont(new Font("Arial", Font.BOLD, 11));
 		text_p1.setBounds(494, 48, 56, 20);
 		panel2.add(text_p1);
 		text_p1.setColumns(10);
 		
 		text_p2 = new JTextField();
+		text_p2.setBackground(new Color(207, 207, 207));
+		text_p2.setFont(new Font("Arial", Font.BOLD, 11));
 		text_p2.setBounds(593, 48, 56, 20);
 		panel2.add(text_p2);
 		text_p2.setColumns(10);
 		
-		agregarPeso = new JLabel("Agregar peso arista entre:");
+		agregarPeso = new JLabel("Agregar peso de arista entre:");
 		agregarPeso.setFont(new Font("Arial", Font.BOLD, 11));
-		agregarPeso.setBounds(454, 11, 160, 26);
+		agregarPeso.setBounds(454, 11, 195, 26);
 		panel2.add(agregarPeso);
 		
 		l_y = new JLabel("y");
@@ -136,7 +135,9 @@ public class Interfaz {
 		panel2.add(lblNewLabel);
 		
 		text_peso = new JTextField();
-		text_peso.setBounds(504, 84, 46, 20);
+		text_peso.setBackground(new Color(207, 207, 207));
+		text_peso.setFont(new Font("Arial", Font.BOLD, 11));
+		text_peso.setBounds(494, 85, 46, 20);
 		panel2.add(text_peso);
 		text_peso.setColumns(10);
 		
@@ -155,8 +156,12 @@ public class Interfaz {
 		Coordinate coordenada = new Coordinate(-40.217898, -66.831649);
 		mapa.setDisplayPosition(coordenada, 4);
 		
+		negro = new Color(83,83,83);
+		
 		for (Coordinate p:provincias) {
-			mapa.addMapMarker(new MapMarkerDot(p));
+			MapMarkerDot punto = new MapMarkerDot(p);
+			punto.setBackColor(negro);
+			mapa.addMapMarker(punto);
 		}
 		
 		crearUniones();
@@ -164,13 +169,13 @@ public class Interfaz {
 		cartel_error = new JLabel("No son limitrofes!");
 		cartel_error.setVisible(false);
 		cartel_error.setFont(new Font("Arial", Font.BOLD, 9));
-		cartel_error.setBounds(578, 79, 89, 30);
+		cartel_error.setBounds(568, 83, 89, 30);
 		panel2.add(cartel_error);
 		
 		cartel_error2 = new JLabel("Ya tiene peso!");
 		cartel_error2.setFont(new Font("Arial", Font.BOLD, 9));
 		cartel_error2.setVisible(false);
-		cartel_error2.setBounds(578, 87, 86, 14);
+		cartel_error2.setBounds(568, 79, 83, 39);
 		panel2.add(cartel_error2);
 		
 	
@@ -182,20 +187,21 @@ public class Interfaz {
 				agregarPesoArista();
 			}
 		});
-		bot_agregar.setBackground(new Color(217, 217, 217));
+		bot_agregar.setBackground(new Color(207, 207, 207));
 		bot_agregar.setBorderPainted(false);
 		bot_agregar.setBounds(685, 103, 89, 23);
 		panel2.add(bot_agregar);
 		
 		infoProvincias = new JTextPane();
-		infoProvincias.setBackground(new Color(192, 192, 192));
+		infoProvincias.setFont(new Font("Arial", Font.BOLD, 11));
+		infoProvincias.setBackground(new Color(225, 225, 225));
 		infoProvincias.setEditable(false);
 		infoProvincias.setText("Informacion sobre la referencia a provincias:\n"
 				+ "Jujuy = 0\n" + "Salta = 1\n" + "Formosa = 2\n" + "Catamarca = 3\n" + "Tucuman = 4\n" + "Santiago del Estero = 5\n" + "Chaco = 6\n"
 				+ "Corrientes = 7\n" + "Misiones = 8\n" + "Santa Fe = 9\n" + "La Rioja = 10\n" + "Cordoba = 11\n" + "Entre Rios = 12\n" + "San Juan = 13\n"
 				+ "San Luis = 14\n" + "Buenos Aires = 15\n" + "CABA = 16\n" + "Mendoza = 17\n" + "La Pampa = 18\n" + "Neuquen = 19\n" + "Rio Negro = 20\n"
 				+ "Chubut = 21\n" + "Santa Cruz = 22\n" + "Tierra Del Fuego = 23");
-		infoProvincias.setBounds(454, 163, 221, 453);
+		infoProvincias.setBounds(454, 163, 286, 453);
 		panel2.add(infoProvincias);
 		
 
@@ -206,7 +212,7 @@ public class Interfaz {
 				ejecutarAGM();
 			}
 		});
-		btnNewButton.setBackground(new Color(217, 217, 217));
+		btnNewButton.setBackground(new Color(207, 207, 207));
 		btnNewButton.setBorderPainted(false);
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnNewButton.setBounds(685, 627, 89, 23);
@@ -221,7 +227,7 @@ public class Interfaz {
 			}
 		});
 		b_reiniciar.setBorderPainted(false);
-		b_reiniciar.setBackground(new Color(217, 217, 217));
+		b_reiniciar.setBackground(new Color(207, 207, 207));
 		b_reiniciar.setBounds(454, 627, 89, 23);
 		panel2.add(b_reiniciar);
 	}

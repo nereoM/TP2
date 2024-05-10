@@ -24,12 +24,10 @@ public class Kruskal {
 		return aristas;
 	}
 
-	public List<Arista> kruskal(int numVertices, int[][] matrizDePesos) {
+	public List<Arista> agm(int numVertices, int[][] matrizDePesos) {
 		List<Arista> aristas = obtenerTodasLasAristas(numVertices, matrizDePesos);
 		Collections.sort(aristas); //Ordena de las aristas de menor a mayor segun su peso
-
 		UnionFind unionFind = new UnionFind(numVertices); //Se crean las componentes conexas iniciales
-
 		List<Arista> agm = new ArrayList<>();
 		for (Arista arista : aristas) {
 			int origen = arista.getOrigen();

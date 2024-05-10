@@ -105,7 +105,7 @@ public class Grafo {
 	}
 	
 	public List<Arista> kruskal() {
-		return kruskal.kruskal(numVertices, devolverMatrizPesos());	
+		return kruskal.agm(numVertices, devolverMatrizPesos());	
 	}
 
 	/*
