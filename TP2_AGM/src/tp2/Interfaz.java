@@ -39,7 +39,7 @@ public class Interfaz {
 	private ArrayList<MapPolygon> lineas;
 	private Grafo grafo;
 	private List<Arista> aristasAgm;
-	private JPanel panelMapa, panelGeneral, panel2;
+	private JPanel panel2;
 	private JTextField text_p1, text_p2;
 	private JLabel l_y, agregarPeso, lblNewLabel;
 	private JTextField text_peso;
@@ -48,7 +48,6 @@ public class Interfaz {
 	private JButton btnNewButton, bot_agregar;
 	private JTextPane infoProvincias;
 	private JButton b_reiniciar;
-	private Kruskal kruskal;
 	private int cantProvincias;
 
 	/**
@@ -113,16 +112,17 @@ public class Interfaz {
 		panel2.add(mapa);
 		
 		text_p1 = new JTextField();
-		text_p1.setBounds(464, 48, 86, 20);
+		text_p1.setBounds(494, 48, 56, 20);
 		panel2.add(text_p1);
 		text_p1.setColumns(10);
 		
 		text_p2 = new JTextField();
-		text_p2.setBounds(593, 48, 86, 20);
+		text_p2.setBounds(593, 48, 56, 20);
 		panel2.add(text_p2);
 		text_p2.setColumns(10);
 		
 		agregarPeso = new JLabel("Agregar peso arista entre:");
+		agregarPeso.setFont(new Font("Arial", Font.BOLD, 11));
 		agregarPeso.setBounds(454, 11, 160, 26);
 		panel2.add(agregarPeso);
 		
@@ -131,6 +131,7 @@ public class Interfaz {
 		panel2.add(l_y);
 		
 		lblNewLabel = new JLabel("Peso:");
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 11));
 		lblNewLabel.setBounds(454, 87, 46, 14);
 		panel2.add(lblNewLabel);
 		
@@ -183,7 +184,7 @@ public class Interfaz {
 		});
 		bot_agregar.setBackground(new Color(217, 217, 217));
 		bot_agregar.setBorderPainted(false);
-		bot_agregar.setBounds(674, 103, 89, 23);
+		bot_agregar.setBounds(685, 103, 89, 23);
 		panel2.add(bot_agregar);
 		
 		infoProvincias = new JTextPane();

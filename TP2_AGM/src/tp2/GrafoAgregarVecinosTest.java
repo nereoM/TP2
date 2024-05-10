@@ -28,7 +28,7 @@ public class GrafoAgregarVecinosTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void agregarVecinosFueraRango() {
+	public void agregarVecinosFueraRangoTest() {
 		Grafo grafo = crearGrafo();
 		grafo.agregarVecinos(7, 5);
 	}
