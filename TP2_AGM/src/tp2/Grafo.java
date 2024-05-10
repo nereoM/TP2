@@ -12,6 +12,9 @@ public class Grafo {
 	private Kruskal kruskal;
 
 	public Grafo(int vertices) {
+		if (vertices == 0) {
+			throw new IllegalArgumentException("No se puede crear un grafo vacio.");
+		}
 		this.matrizDePesos = new int[vertices][vertices];
 		this.numVertices = matrizDePesos.length;
 		this.A = new boolean[vertices][vertices];
@@ -24,6 +27,7 @@ public class Grafo {
 	{
 		return A.length;
 	}
+	
 	
 	private void inicializarMatrizAdy() {
 		for (int i = 0; i < numVertices; i++) {
@@ -60,6 +64,11 @@ public class Grafo {
 		matrizDePesos[j][i] = peso;
 	}
 	
+	public boolean[][] devolverMatrizAdy() {
+        boolean[][] ady = A;
+        return ady;
+    }
+	
 	public int[][] devolverMatrizPesos() {
 		int[][] pesos = matrizDePesos;
 		return pesos;
@@ -76,6 +85,9 @@ public class Grafo {
 		}
 		else if (matrizDePesos[p1][p2] != 0) {
 			return 0;
+		}
+		else if (peso < 0) {
+			peso *= (-1);
 		}
 		agregarPesoArista(p1, p2, peso);
 		System.out.println("se agrego arista con peso " + peso);

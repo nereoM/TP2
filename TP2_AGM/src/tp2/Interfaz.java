@@ -9,6 +9,7 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
+import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
@@ -25,6 +26,7 @@ import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
@@ -44,13 +46,12 @@ public class Interfaz {
 	private JTextField text_p1, text_p2;
 	private JLabel l_y, agregarPeso, lblNewLabel;
 	private JTextField text_peso;
-	private JLabel cartel_error;
-	private JLabel cartel_error2;
+	private JLabel cartel_error, cartel_error2, l_sumaPesos;
 	private JButton btnNewButton, bot_agregar;
 	private JTextPane infoProvincias;
 	private JButton b_reiniciar;
 	private int cantProvincias;
-	private Color negro;
+	private Color negro, rojo;
 
 	/**
 	 * Launch the application.
@@ -86,7 +87,7 @@ public class Interfaz {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(500, 200, 800, 700);
+		frame.setBounds(500, 200, 800, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		
@@ -98,13 +99,20 @@ public class Interfaz {
 		panel2.setLayout(null);
 		
 		mapa = new JMapViewer();
-		mapa.setBounds(0, 0, 444, 661);
+		mapa.setBounds(0, 0, 444, 561);
 		mapa.setAlignmentY(Component.TOP_ALIGNMENT);
 		mapa.setAlignmentX(Component.LEFT_ALIGNMENT);
 		mapa.setPreferredSize(new Dimension(500, 600));
 		mapa.setZoomControlsVisible(false);
+		mapa.setFocusable(false);
 		
 		panel2.add(mapa);
+		
+		l_sumaPesos = new JLabel("Distancia final: ");
+		l_sumaPesos.setFont(new Font("Arial", Font.BOLD, 12));
+		l_sumaPesos.setBounds(307, 0, 137, 32);
+		mapa.add(l_sumaPesos);
+		l_sumaPesos.setVisible(false);
 		
 		text_p1 = new JTextField();
 		text_p1.setBackground(new Color(207, 207, 207));
@@ -128,6 +136,7 @@ public class Interfaz {
 		l_y = new JLabel("y");
 		l_y.setBounds(568, 41, 27, 34);
 		panel2.add(l_y);
+		
 		
 		lblNewLabel = new JLabel("Peso:");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 11));
@@ -157,6 +166,7 @@ public class Interfaz {
 		mapa.setDisplayPosition(coordenada, 4);
 		
 		negro = new Color(83,83,83);
+		rojo = new Color(255, 0, 0);
 		
 		for (Coordinate p:provincias) {
 			MapMarkerDot punto = new MapMarkerDot(p);
@@ -224,6 +234,7 @@ public class Interfaz {
 				grafo.inicializarMatrizAdyPesos();
 				removerLineas();
 				crearUniones();
+				l_sumaPesos.setVisible(false);
 			}
 		});
 		b_reiniciar.setBorderPainted(false);
@@ -266,12 +277,32 @@ public class Interfaz {
 		removerLineas();
 		aristasAgm = grafo.kruskal();
 		for (int i = 0; i < aristasAgm.size(); i++) {
-				MapPolygon poligono = new MapPolygonImpl(createLine(provincias.get(aristasAgm.get(i).getOrigen()), provincias.get(aristasAgm.get(i).getDestino())));
-				mapa.addMapPolygon(poligono);
-				lineas.add(poligono);
+			MapPolygon poligono = new MapPolygonImpl(createLine(provincias.get(aristasAgm.get(i).getOrigen()), provincias.get(aristasAgm.get(i).getDestino())));
+			mapa.addMapPolygon(poligono);
+			mostrarPesosAristas(i, aristasAgm);
 		}
+		l_sumaPesos.setText("Distancia final:  " + sumaPesos(aristasAgm));
+		l_sumaPesos.setVisible(true);
 		
-		
+	}
+	
+	private void mostrarPesosAristas(int i, List<Arista> aristasAgm2) {
+		double centroidLat = 0, centroidLon = 0;
+		JLabel label = new JLabel(aristasAgm.get(i).getPeso() + "");
+		centroidLat += (provincias.get(aristasAgm.get(i).getOrigen()).getLat() +  provincias.get(aristasAgm.get(i).getDestino()).getLat())/2;
+		centroidLon += (provincias.get(aristasAgm.get(i).getOrigen()).getLon() + provincias.get(aristasAgm.get(i).getDestino()).getLon())/2;
+		Point punto = mapa.getMapPosition(new Coordinate(centroidLat, centroidLon));
+		label.setBounds(punto.x, punto.y, 150, 10);
+		label.setForeground(rojo);
+		mapa.add(label);
+	}
+
+	private int sumaPesos(List<Arista> aristas) {
+		int suma = 0;
+		for (Arista a:aristas) {
+			suma += a.getPeso();
+		}
+		return suma;
 	}
 	
 	private void removerLineas() {
