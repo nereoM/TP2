@@ -18,13 +18,13 @@ public class KruskalTest {
 		
 		Grafo grafo = crearGrafo();
 		
-		grafo.pesoArista(0, 1, 2);
-		grafo.pesoArista(4, 2, 7);
-		grafo.pesoArista(0, 2, 5);
-		grafo.pesoArista(4, 3, 3);
-		grafo.pesoArista(3, 1, 18);
-		grafo.pesoArista(3, 2, 9);
-		grafo.pesoArista(0, 3, 1);
+		grafo.agregarPesoArista(0, 1, 2);
+		grafo.agregarPesoArista(4, 2, 7);
+		grafo.agregarPesoArista(0, 2, 5);
+		grafo.agregarPesoArista(4, 3, 3);
+		grafo.agregarPesoArista(3, 1, 18);
+		grafo.agregarPesoArista(3, 2, 9);
+		grafo.agregarPesoArista(0, 3, 1);
 		
 		List<Arista> esperado = new ArrayList<Arista>();
 		esperado.add(new Arista(0, 3, 1));
@@ -43,13 +43,13 @@ public class KruskalTest {
 		
 		Grafo grafo = crearGrafo();
 		
-		grafo.pesoArista(0, 1, -2);
-		grafo.pesoArista(4, 2, -7);
-		grafo.pesoArista(0, 2, -5);
-		grafo.pesoArista(4, 3, -3);
-		grafo.pesoArista(3, 1, -18);
-		grafo.pesoArista(3, 2, -9);
-		grafo.pesoArista(0, 3, -1);
+		grafo.agregarPesoArista(0, 1, -2);
+		grafo.agregarPesoArista(4, 2, -7);
+		grafo.agregarPesoArista(0, 2, -5);
+		grafo.agregarPesoArista(4, 3, -3);
+		grafo.agregarPesoArista(3, 1, -18);
+		grafo.agregarPesoArista(3, 2, -9);
+		grafo.agregarPesoArista(0, 3, -1);
 		
 		List<Arista> esperado = new ArrayList<Arista>();
 		esperado.add(new Arista(0, 3, 1));
@@ -68,12 +68,12 @@ public class KruskalTest {
 		
 		Grafo grafo = grafoCompleto();
 		
-		grafo.pesoArista(0, 1, 2);
-		grafo.pesoArista(0, 2, 7);
-		grafo.pesoArista(0, 3, 5);
-		grafo.pesoArista(1, 2, 3);
-		grafo.pesoArista(1, 3, 18);
-		grafo.pesoArista(2, 3, 9);
+		grafo.agregarPesoArista(0, 1, 2);
+		grafo.agregarPesoArista(0, 2, 7);
+		grafo.agregarPesoArista(0, 3, 5);
+		grafo.agregarPesoArista(1, 2, 3);
+		grafo.agregarPesoArista(1, 3, 18);
+		grafo.agregarPesoArista(2, 3, 9);
 		
 		List<Arista> agm = grafo.kruskal();
 		

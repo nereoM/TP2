@@ -19,36 +19,36 @@ public class GrafoAgregarPesoAristaTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void pesoEnVerticeFueraDeRangoTest() {
 		Grafo grafo = crearGrafo();
-		grafo.agregarPesoArista(6, 0, 10);
+		grafo.agregarPesoAristaAux(6, 0, 10);
 	}
 	
 	@Test
 	public void pesoEnVerticesNoVecinosTest() {
 		Grafo grafo = crearGrafo();
-		assertEquals(-1, grafo.pesoArista(4, 3, 10));
+		assertEquals(-1, grafo.agregarPesoArista(4, 3, 10));
 	}
 	
 	@Test
 	public void agregarPeso0FalseTest() {
 		Grafo grafo = crearGrafo();
-		assertEquals(-2, grafo.pesoArista(0, 1, 0));
+		assertEquals(-2, grafo.agregarPesoArista(0, 1, 0));
 	}
 	
 	@Test
 	public void agregarPesoAristaOkTest() {
 		Grafo grafo = crearGrafo();
-		assertEquals(1, grafo.pesoArista(4, 2, 5));
+		assertEquals(1, grafo.agregarPesoArista(4, 2, 5));
 	}
 	
-	@Test (expected = IllegalArgumentException.class)
+	@Test
 	public void pesoEnVerticeNegativoTest() {
 		Grafo grafo = crearGrafo();
-		grafo.pesoArista(-1, 0, 1);
+		assertEquals(2, grafo.agregarPesoArista(-1, 0, 1));
 	}
 	
-	@Test (expected = IllegalArgumentException.class)
+	@Test
 	public void pesoEnMismoVerticeFalseTest() {
 		Grafo grafo = crearGrafo();
-		grafo.pesoArista(1, 1, 25);
+		assertEquals(2, grafo.agregarPesoArista(1, 1, 25));
 	}
 }

@@ -54,7 +54,7 @@ public class Grafo {
 		A[j][i] = true;
 	}
 
-	public void agregarPesoArista(int i, int j, int peso)
+	public void agregarPesoAristaAux(int i, int j, int peso)
 	{
 		verificarVertice(i);
 		verificarVertice(j);
@@ -74,24 +74,29 @@ public class Grafo {
 		return pesos;
 	}
 	
-	public int pesoArista(int p1, int p2, int peso) {
-		verificarDistintos(p1, p2);
-		if (!existeArista(p1, p2)) {
-			//throw new RuntimeException("La arista no existe.");
-			return -1;
+	public int agregarPesoArista(int p1, int p2, int peso) {
+		try {
+			verificarDistintos(p1, p2);
+			if (!existeArista(p1, p2)) {
+				//throw new RuntimeException("La arista no existe.");
+				return -1;
+			}
+			else if (peso == 0) {
+				return -2;
+			}
+			else if (matrizDePesos[p1][p2] != 0) {
+				return 0;
+			}
+			else if (peso < 0) {
+				peso *= (-1);
+			}
+			agregarPesoAristaAux(p1, p2, peso);
+			System.out.println("se agrego arista con peso " + peso);
+			return 1;
 		}
-		else if (peso == 0) {
-			return -2;
+		catch (IllegalArgumentException e) {
+			return 2;
 		}
-		else if (matrizDePesos[p1][p2] != 0) {
-			return 0;
-		}
-		else if (peso < 0) {
-			peso *= (-1);
-		}
-		agregarPesoArista(p1, p2, peso);
-		System.out.println("se agrego arista con peso " + peso);
-		return 1;
 	}
 	
 	private void verificarVertice(int i)
