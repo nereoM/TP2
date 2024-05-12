@@ -1,4 +1,4 @@
-package tp2;
+package tests;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +8,9 @@ import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import tp2.Arista;
+import tp2.Grafo;
 
 //import grafos.Grafo;
 

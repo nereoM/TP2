@@ -1,9 +1,11 @@
-package tp2;
+package tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+
+import tp2.Arista;
 
 public class Chequeos {
 	

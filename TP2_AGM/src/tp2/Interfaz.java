@@ -54,6 +54,8 @@ public class Interfaz {
 	private JButton b_reiniciar;
 	private int cantProvincias, cantAristas;
 	private Color negro, rojo;
+	private JLabel l_cantRegiones;
+	private JTextField regiones;
 
 	/**
 	 * Launch the application.
@@ -131,12 +133,14 @@ public class Interfaz {
 			public void actionPerformed(ActionEvent e) {
 				cartel_error.setVisible(false);
 				agregarPesoArista();
+				regiones.setEnabled(false);
 			}
 		});
 		bot_agregar.setBackground(new Color(207, 207, 207));
 		bot_agregar.setBorderPainted(false);
-		bot_agregar.setBounds(685, 83, 89, 23);
+		bot_agregar.setBounds(651, 131, 89, 23);
 		panel2.add(bot_agregar);
+		
 		
 		
 		btnNewButton = new JButton("Generar");
@@ -163,12 +167,14 @@ public class Interfaz {
 				for(JLabel l:labels) {
 					l.setVisible(false);
 				}
+				regiones.setEnabled(true);;
 			}
 		});
 		b_reiniciar.setBorderPainted(false);
 		b_reiniciar.setBackground(new Color(207, 207, 207));
 		b_reiniciar.setBounds(454, 524, 95, 26);
 		panel2.add(b_reiniciar);
+		
 	}
 
 	private void definirObjetosPantalla() {
@@ -206,36 +212,36 @@ public class Interfaz {
 		text_p1 = new JTextField();
 		text_p1.setBackground(new Color(207, 207, 207));
 		text_p1.setFont(new Font("Arial", Font.BOLD, 11));
-		text_p1.setBounds(494, 48, 56, 20);
+		text_p1.setBounds(494, 93, 56, 20);
 		panel2.add(text_p1);
 		text_p1.setColumns(10);
 		
 		text_p2 = new JTextField();
 		text_p2.setBackground(new Color(207, 207, 207));
 		text_p2.setFont(new Font("Arial", Font.BOLD, 11));
-		text_p2.setBounds(593, 48, 56, 20);
+		text_p2.setBounds(593, 93, 56, 20);
 		panel2.add(text_p2);
 		text_p2.setColumns(10);
 		
 		agregarPeso = new JLabel("Agregar similaridad entre:");
 		agregarPeso.setFont(new Font("Arial", Font.BOLD, 11));
-		agregarPeso.setBounds(454, 11, 195, 26);
+		agregarPeso.setBounds(454, 56, 195, 26);
 		panel2.add(agregarPeso);
 		
 		l_y = new JLabel("y");
-		l_y.setBounds(568, 41, 27, 34);
+		l_y.setBounds(570, 85, 13, 34);
 		panel2.add(l_y);
 		
 		
 		l_indice = new JLabel("Indice:");
 		l_indice.setFont(new Font("Arial", Font.BOLD, 11));
-		l_indice.setBounds(454, 87, 46, 14);
+		l_indice.setBounds(454, 129, 46, 14);
 		panel2.add(l_indice);
 		
 		text_peso = new JTextField();
 		text_peso.setBackground(new Color(207, 207, 207));
 		text_peso.setFont(new Font("Arial", Font.BOLD, 11));
-		text_peso.setBounds(494, 85, 46, 20);
+		text_peso.setBounds(494, 127, 46, 20);
 		panel2.add(text_peso);
 		text_peso.setColumns(10);
 		
@@ -250,7 +256,7 @@ public class Interfaz {
 		cartel_error = new JLabel();
 		cartel_error.setVisible(false);
 		cartel_error.setFont(new Font("Arial", Font.BOLD, 9));
-		cartel_error.setBounds(568, 83, 89, 30);
+		cartel_error.setBounds(659, 89, 89, 30);
 		panel2.add(cartel_error);
 	
 		
@@ -263,9 +269,20 @@ public class Interfaz {
 				+ "Corrientes = 7\n" + "Misiones = 8\n" + "Santa Fe = 9\n" + "La Rioja = 10\n" + "Cordoba = 11\n" + "Entre Rios = 12\n" + "San Juan = 13\n"
 				+ "San Luis = 14\n" + "Buenos Aires = 15\n" + "CABA = 16\n" + "Mendoza = 17\n" + "La Pampa = 18\n" + "Neuquen = 19\n" + "Rio Negro = 20\n"
 				+ "Chubut = 21\n" + "Santa Cruz = 22\n" + "Tierra Del Fuego = 23");
-		infoProvincias.setBounds(454, 124, 286, 385);
+		infoProvincias.setBounds(454, 165, 286, 354);
 		panel2.add(infoProvincias);
 		
+		l_cantRegiones = new JLabel("Cantidad de Regiones necesarias:");
+		l_cantRegiones.setFont(new Font("Arial", Font.BOLD, 11));
+		l_cantRegiones.setBounds(454, 11, 195, 34);
+		panel2.add(l_cantRegiones);
+		
+		regiones = new JTextField();
+		regiones.setBackground(new Color(207, 207, 207));
+		regiones.setFont(new Font("Arial", Font.BOLD, 11));
+		regiones.setBounds(654, 18, 56, 20);
+		panel2.add(regiones);
+		regiones.setColumns(10);
 	}
 
 	private static List<Coordinate> createLine(Coordinate start, Coordinate end) {
@@ -307,18 +324,34 @@ public class Interfaz {
 	private void ejecutarAGM() {
 		removerLineas();
 		aristasAgm = grafo.kruskal();
+		int provinciasConectadas = aristasAgm.size()-(Integer.parseInt(regiones.getText()));
+		quitarK_1Aristas();
 		for (int i = 0; i < aristasAgm.size(); i++) {
 			MapPolygon poligono = new MapPolygonImpl(createLine(provincias.get(aristasAgm.get(i).getOrigen()), provincias.get(aristasAgm.get(i).getDestino())));
 			mapa.addMapPolygon(poligono);
 			mostrarPesosAristas(i, aristasAgm);
 		}
+		l_cantVertices.setText("Cant de provincias conectadas: " + provinciasConectadas);
+		l_cantVertices.setVisible(true);
 		l_sumaPesos.setText("Distancia final: " + sumaPesos(aristasAgm));
 		l_sumaPesos.setVisible(true);
-		l_cantVertices.setText("Cant de provincias conectadas: " + (aristasAgm.size()+1));
-		l_cantVertices.setVisible(true);
-		
 	}
 	
+	private void quitarK_1Aristas() {
+		int k = Integer.parseInt(regiones.getText())-1;
+		for (int i = 0; i < k; i++) {
+			int max = aristasAgm.get(1).getPeso();
+			Arista aMax = aristasAgm.get(1);
+			for (Arista a:aristasAgm) {
+				if (a.getPeso() > max) {
+					max = a.getPeso();
+					aMax = a;
+				}
+			}
+			aristasAgm.remove(aMax);
+		}
+	}
+
 	private void mostrarPesosAristas(int i, List<Arista> aristasAgm2) {
 		double centroidLat = 0, centroidLon = 0;
 		JLabel l = labels.get(i);

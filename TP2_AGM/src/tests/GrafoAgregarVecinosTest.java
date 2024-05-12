@@ -1,4 +1,4 @@
-package tp2;
+package tests;
 
 import org.junit.Test;
 
@@ -6,6 +6,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Assert;
 import org.junit.Assert.*;
+
+import tp2.Grafo;
 
 public class GrafoAgregarVecinosTest {
 

@@ -5,10 +5,16 @@ public class UnionFind {
 private int[] componentesConexas;
 	
 	public UnionFind(int vertices) {
-		this.componentesConexas = new int[vertices];
-		for (int i = 0; i < this.componentesConexas.length; i++) {
-			this.componentesConexas[i] = i;
+		if (vertices == 0) {
+			throw new IllegalArgumentException();
 		}
+		else {
+			this.componentesConexas = new int[vertices];
+			for (int i = 0; i < this.componentesConexas.length; i++) {
+				this.componentesConexas[i] = i;
+			}
+		}
+		
 	}
 	
 	public int raiz(int i) {
@@ -27,5 +33,9 @@ private int[] componentesConexas;
 		int rj = raiz(j);
 		this.componentesConexas[ri] = rj;
 	}
-
+	
+	public int[] getComponentesConexas() {
+		int [] compConexas = componentesConexas;
+		return compConexas;
+	}
 }

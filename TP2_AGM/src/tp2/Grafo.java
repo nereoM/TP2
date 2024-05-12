@@ -78,7 +78,6 @@ public class Grafo {
 		try {
 			verificarDistintos(p1, p2);
 			if (!existeArista(p1, p2)) {
-				//throw new RuntimeException("La arista no existe.");
 				return -1;
 			}
 			else if (peso == 0) {
@@ -124,50 +123,5 @@ public class Grafo {
 	public List<Arista> kruskal() {
 		return kruskal.agm(numVertices, devolverMatrizPesos());	
 	}
-
-	/*
-	public List<Arista> obtenerTodasLasAristas() {
-		List<Arista> aristas = new ArrayList<>();
-		for (int i = 0; i < numVertices; i++) {
-			for (int j = i + 1; j < numVertices; j++) {
-				if (matrizDePesos[i][j] != 0) {
-					Arista arista = new Arista(i, j, matrizDePesos[i][j]);
-					aristas.add(arista);
-				}
-			}
-		}
-		return aristas;
-	}
-
-	public List<Arista> kruskal() {
-		List<Arista> aristas = obtenerTodasLasAristas();
-		Collections.sort(aristas); //Ordena de las aristas de menor a mayor segun su peso
-
-		UnionFind unionFind = new UnionFind(this.numVertices); //Se crean las componentes conexas iniciales
-
-		List<Arista> agm = new ArrayList<>();
-		for (Arista arista : aristas) {
-			int origen = arista.getOrigen();
-			int destino = arista.getDestino();
-			if (!unionFind.find(origen, destino)) { //Estan en la misma componente conexa?
-				agm.add(arista);
-				unionFind.union(origen, destino); //Apuntar a la misma raiz
-			}
-		}
-		return agm; //Lista de aristas del arbol generador minimo
-	}
-	*/
-	
-	/*
-	public void aMatrizAdy(List<Arista> agm) { //la lista de aristas pasada tiene que ser la del agm
-		for (Arista a : agm) {
-			int vOrigen = a.getOrigen();
-			int vDestino = a.getDestino();
-			
-			this.matrizAdy[vOrigen][vDestino] = true;
-			this.matrizAdy[vDestino][vOrigen] = true;
-		}
-	}
-	*/
 
 }
