@@ -83,9 +83,6 @@ public class Grafo {
 			else if (peso == 0) {
 				return -2;
 			}
-			else if (matrizDePesos[p1][p2] != 0) {
-				return 0;
-			}
 			else if (peso < 0) {
 				peso *= (-1);
 			}

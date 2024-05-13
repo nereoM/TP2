@@ -56,6 +56,7 @@ public class Interfaz {
 	private Color naranja, rojo;
 	private JLabel l_cantRegiones;
 	private JTextField regiones;
+	private LectorTxt lector;
 
 	/**
 	 * Launch the application.
@@ -115,9 +116,17 @@ public class Interfaz {
 		
 		agregarVecinos();
 		
+		lector = new LectorTxt();
+		
+		agregarPesosPorArchivo();
+		
 		crearUniones();
 	}
 	
+	private void agregarPesosPorArchivo() {
+		lector.leerArchivo(grafo);
+	}
+
 	private void agregarMarcadores() {
 		for (Coordinate p:provincias) {
 			MapMarkerDot punto = new MapMarkerDot(p);
@@ -320,12 +329,7 @@ public class Interfaz {
 	}
 	
 	private void agregarPesoArista() {
-		if (grafo.agregarPesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == 0) {
-			cartel_error.setText("Ya tiene peso!");
-			cartel_error.setVisible(true);
-		}
-		
-		else if (grafo.agregarPesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == -1) {
+		if (grafo.agregarPesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == -1) {
 			cartel_error.setText("No son limitrofes!");
 			cartel_error.setVisible(true);
 		}
