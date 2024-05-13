@@ -53,7 +53,7 @@ public class Interfaz {
 	private JTextPane infoProvincias;
 	private JButton b_reiniciar;
 	private int cantProvincias, cantAristas;
-	private Color negro, rojo;
+	private Color naranja, rojo;
 	private JLabel l_cantRegiones;
 	private JTextField regiones;
 
@@ -106,7 +106,7 @@ public class Interfaz {
 		fijarMapa = new Coordinate(-40.217898, -66.831649);
 		mapa.setDisplayPosition(fijarMapa, 4);
 		
-		negro = new Color(83,83,83);
+		naranja = new Color(255, 165, 0);
 		rojo = new Color(255, 0, 0);
 		
 		agregarMarcadores();
@@ -121,7 +121,7 @@ public class Interfaz {
 	private void agregarMarcadores() {
 		for (Coordinate p:provincias) {
 			MapMarkerDot punto = new MapMarkerDot(p);
-			punto.setBackColor(negro);
+			punto.setBackColor(naranja);
 			mapa.addMapMarker(punto);
 		}
 		
@@ -132,8 +132,15 @@ public class Interfaz {
 		bot_agregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cartel_error.setVisible(false);
-				agregarPesoArista();
-				regiones.setEnabled(false);
+				try {
+					verificarTextPanels();
+					agregarPesoArista();
+					regiones.setEnabled(false);
+				}
+				catch (IllegalArgumentException e2) {
+					cartel_error.setText("No pueden estar vacios!");
+					cartel_error.setVisible(true);
+				}
 			}
 		});
 		bot_agregar.setBackground(new Color(207, 207, 207));
@@ -366,8 +373,8 @@ public class Interfaz {
 		double centroidLat = 0, centroidLon = 0;
 		JLabel l = labels.get(i);
 		l.setText(aristasAgm.get(i).getPeso() + "");
-		centroidLat += (provincias.get(aristasAgm.get(i).getOrigen()).getLat() +  provincias.get(aristasAgm.get(i).getDestino()).getLat())/2;
-		centroidLon += (provincias.get(aristasAgm.get(i).getOrigen()).getLon() + provincias.get(aristasAgm.get(i).getDestino()).getLon())/2;
+		centroidLat += (provincias.get(aristasAgm.get(i).getOrigen()).getLat() +  provincias.get(aristasAgm.get(i).getDestino()).getLat())/2.0;
+		centroidLon += (provincias.get(aristasAgm.get(i).getOrigen()).getLon() + provincias.get(aristasAgm.get(i).getDestino()).getLon())/2.0;
 		Point punto = mapa.getMapPosition(new Coordinate(centroidLat, centroidLon));
 		l.setBounds(punto.x, punto.y, 150, 10);
 		l.setForeground(rojo);
@@ -386,6 +393,12 @@ public class Interfaz {
 	
 	private void removerLineas() {
 		mapa.removeAllMapPolygons();
+	}
+	
+	private void verificarTextPanels() {
+		if (text_p1.getText().isEmpty() || text_p2.getText().isEmpty() || regiones.getText().isEmpty() || text_peso.getText().isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 	}
 	
 	private void definirProvincias() {
