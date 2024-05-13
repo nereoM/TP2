@@ -45,38 +45,33 @@ public class UnionFindTest {
 		
 	}
 	
+	@Test (expected = IllegalArgumentException.class)
+    public void menorACeroTest() {
+
+        new UnionFind(-1);
+
+    }
+	
 	@Test
-	public void unionTransitiva() {
-		
-		UnionFind uf = new UnionFind(10);
-		
-		uf.union(0, 1);
-	    uf.union(1, 2);
-	    uf.union(3, 4);
-	    uf.union(4, 5);
-	    uf.union(6, 7);
-	    uf.union(7, 8);
-		
-	 // Verify that elements within each component are connected
-        assertEquals(true, uf.find(0, 2));
-        assertEquals(true, uf.find(3, 5));
-        assertEquals(true, uf.find(6, 8));
+    public void unionTransitivaTest() {
 
-        // Verify that elements from different components are not connected
-        assertEquals(false, uf.find(0, 3));
-        assertEquals(false, uf.find(1, 6));
-        assertEquals(false, uf.find(2, 8));
+        UnionFind uf = new UnionFind(8);
 
-        // Perform a transitive union to connect components {0, 1, 2} and {6, 7, 8}
-        uf.union(2, 6);
+        uf.union(1, 3);
+        uf.union(5, 3);
+        uf.union(2, 1);
+        uf.union(7, 2);
 
-        // Verify that all elements are now connected in a single component
-        assertEquals(true, uf.find(0, 8));
-        assertEquals(true, uf.find(1, 7));
-        assertEquals(true, uf.find(2, 5));
-        assertEquals(true, uf.find(3, 6));
-        assertEquals(true, uf.find(4, 8));
-		
-	}
+        uf.union(0, 4);
+        uf.union(6, 4);
+
+        assertTrue(uf.find(7, 5));
+        assertFalse(uf.find(7, 6));
+
+        uf.union(3, 4);
+
+        assertTrue(uf.find(7, 6));
+
+    }
 
 }

@@ -146,7 +146,14 @@ public class Interfaz {
 		btnNewButton = new JButton("Generar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ejecutarAGM();
+				try {
+					ejecutarAGM();
+				}
+				catch (IllegalArgumentException e1) {
+					cartel_error.setText("# de regiones no validas!");
+					cartel_error.setVisible(true);
+				}
+				
 			}
 		});
 		btnNewButton.setBackground(new Color(207, 207, 207));
@@ -256,7 +263,7 @@ public class Interfaz {
 		cartel_error = new JLabel();
 		cartel_error.setVisible(false);
 		cartel_error.setFont(new Font("Arial", Font.BOLD, 9));
-		cartel_error.setBounds(659, 89, 89, 30);
+		cartel_error.setBounds(659, 89, 125, 30);
 		panel2.add(cartel_error);
 	
 		
@@ -320,11 +327,14 @@ public class Interfaz {
 			cartel_error.setVisible(true);
 		}
 	}
-	
+
 	private void ejecutarAGM() {
 		removerLineas();
 		aristasAgm = grafo.kruskal();
 		int provinciasConectadas = aristasAgm.size()-(Integer.parseInt(regiones.getText()));
+		if (Integer.parseInt(regiones.getText()) > aristasAgm.size()) {
+			throw new IllegalArgumentException();
+		}
 		quitarK_1Aristas();
 		for (int i = 0; i < aristasAgm.size(); i++) {
 			MapPolygon poligono = new MapPolygonImpl(createLine(provincias.get(aristasAgm.get(i).getOrigen()), provincias.get(aristasAgm.get(i).getDestino())));

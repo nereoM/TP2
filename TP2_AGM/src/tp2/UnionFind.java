@@ -3,11 +3,12 @@ package tp2;
 public class UnionFind {
 	
 private int[] componentesConexas;
-	
+
+
 	public UnionFind(int vertices) {
-		if (vertices == 0) {
-			throw new IllegalArgumentException();
-		}
+		 if (vertices == 0 || vertices < 0) {
+		        throw new IllegalArgumentException("No se puede crear la estructura con cant. de vertices <= 0");
+		    }
 		else {
 			this.componentesConexas = new int[vertices];
 			for (int i = 0; i < this.componentesConexas.length; i++) {
