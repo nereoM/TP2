@@ -126,5 +126,28 @@ public class Grafo {
 	public List<Arista> kruskal() {
 		return kruskal.agm(numVertices, devolverMatrizPesos());	
 	}
+	
+	public List<Arista> quitarK_1Aristas(List<Arista> agm, int cantRegiones) {
+		if (agm.size() == 0 || cantRegiones > agm.size() || cantRegiones <= 0) {
+			throw new IllegalArgumentException();
+		}
+		int k = cantRegiones - 1;
+		for (int i = 0; i < k; i++) {
+			int max = agm.get(0).getPeso();
+			Arista aMax = agm.get(0);
+			for (Arista a:agm) {
+				if (a.getPeso() > max) {
+					max = a.getPeso();
+					aMax = a;
+				}
+			}
+			agm.remove(aMax);
+		}
+		return agm;
+	}
+	
+	public void reiniciarContadorAristasConPeso() {
+		this.cantAristasConPeso = 0;
+	}
 
 }

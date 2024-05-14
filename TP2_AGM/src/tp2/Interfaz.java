@@ -191,6 +191,7 @@ public class Interfaz {
 		bot_reiniciar = new JButton("Reiniciar");
 		bot_reiniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				grafo.reiniciarContadorAristasConPeso();
 				if (manual.isSelected()) {
 					reiniciarMatrizPesos();
 				}
@@ -400,28 +401,16 @@ public class Interfaz {
 		if (cantRegiones > aristasAgm.size()+1) {
 			throw new IllegalArgumentException();
 		}
-		quitarK_1Aristas();
-		crearUnionesAgm();
+		crearUnionesAgm(quitarK_1Aristas());
 		l_sumaPesos.setText("Distancia final: " + sumaPesos(aristasAgm));
 		l_sumaPesos.setVisible(true);
 	}
 	
-	private void quitarK_1Aristas() {
-		int k = cantRegiones - 1;
-		for (int i = 0; i < k; i++) {
-			int max = aristasAgm.get(0).getPeso();
-			Arista aMax = aristasAgm.get(0);
-			for (Arista a:aristasAgm) {
-				if (a.getPeso() > max) {
-					max = a.getPeso();
-					aMax = a;
-				}
-			}
-			aristasAgm.remove(aMax);
-		}
+	private List<Arista> quitarK_1Aristas() {
+		return grafo.quitarK_1Aristas(aristasAgm, cantRegiones);
 	}
 	
-	private void crearUnionesAgm () {
+	private void crearUnionesAgm (List<Arista> aristas) {
 		for (int i = 0; i < aristasAgm.size(); i++) {
 			MapPolygon poligono = new MapPolygonImpl(createLine(provincias.get(aristasAgm.get(i).getOrigen()), provincias.get(aristasAgm.get(i).getDestino())));
 			mapa.addMapPolygon(poligono);

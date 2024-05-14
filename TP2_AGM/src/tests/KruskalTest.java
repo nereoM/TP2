@@ -12,7 +12,7 @@ import org.junit.Test;
 import tp2.Arista;
 import tp2.Grafo;
 
-//import grafos.Grafo;
+
 
 public class KruskalTest {
 
@@ -126,37 +126,5 @@ public class KruskalTest {
 		
 		return grafo;
 	}
-	
-//	private Grafo aleatorio() {
-//	Random random2 = new Random();
-//	int numeroAleatorio = random2.nextInt(10) + 1; 
-//	Grafo grafo = new Grafo(numeroAleatorio);
-//	Random random = new Random(0);
-//	
-//	for (int i = 0; i < numeroAleatorio; i++) {
-//		for (int j = i+1; j < numeroAleatorio; j++) {
-//			if (random.nextDouble() < 0.3) {
-//				grafo.agregarVecinos(i, j);
-//			}
-//		}
-//	}
-//	return grafo;
-//}
-//
-//private Grafo pesosAleatorio() {
-//	Grafo grafo = aleatorio();
-//	boolean[][] matrizAdy = grafo.devolverMatrizAdy();
-//	int[][] matrizPesos = grafo.devolverMatrizPesos();
-//	for (int i = 0; i < matrizAdy.length; i++) {
-//		for (int j = 0; j < matrizAdy[i].length; j++) {
-//			if (matrizAdy[i][j] && matrizPesos[i][j] == 0) {
-//				Random random = new Random();
-//				int pesoAleatorio = random.nextInt(100) + 1;
-//				matrizPesos[i][j] = pesoAleatorio;
-//			}
-//		}
-//	}
-//	return grafo;
-//}
 
 }
