@@ -9,15 +9,15 @@ import java.nio.file.Paths;
 
 public class LectorTxt {
 	
-	public void leerArchivo(Grafo grafo) {
+	public int leerArchivo(Grafo grafo) {
         String linea;
         int provOrigen, provDestino, pesoArista;
-        String nombreArchivo = "src/archivos/ejemploPrueba.txt";
-        //File archivo = new File(nombreArchivo);
+        int cantNoAgregadas = 0;
+        int agregar;
 
         try {
         	Path path = Paths.get("src/archivos/ejemploprueba");
-        	linea = path.toString();        	//Aca reemplazalo con tu txt de tu compu
+        	linea = path.toString();
             FileReader lectorArchivo = new FileReader(linea);
             BufferedReader lector = new BufferedReader(lectorArchivo);
 
@@ -27,19 +27,22 @@ public class LectorTxt {
                 provDestino = Integer.parseInt(numeros[1]);
                 pesoArista = Integer.parseInt(numeros[2]);
                 
-                //Algo como esto de aca abajo deberia de quedar creo
-                grafo.agregarPesoArista(provOrigen, provDestino, pesoArista);
+                agregar = grafo.agregarPesoArista(provOrigen, provDestino, pesoArista);
+                
+                if (agregar == -1 || agregar == -2 || agregar == 2) {
+                	cantNoAgregadas++;
+                }
 
                 System.out.println("Número 1: " + provOrigen);
                 System.out.println("Número 2: " + provDestino);
-                System.out.println("Número 3: " + pesoArista);
+                System.out.println("Similaridad: " + pesoArista);
                 System.out.println("------------------------");
             }
-
             lector.close();
         } catch (IOException e) {
             System.out.println("Error al abrir el archivo: " + e.getMessage());
             e.printStackTrace();
         }
+        return cantNoAgregadas;
 	}
 }
