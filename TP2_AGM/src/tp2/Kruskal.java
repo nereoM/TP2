@@ -26,17 +26,17 @@ public class Kruskal {
 
 	public List<Arista> agm(int numVertices, int[][] matrizDePesos) {
 		List<Arista> aristas = obtenerTodasLasAristas(numVertices, matrizDePesos);
-		Collections.sort(aristas); //Ordena de las aristas de menor a mayor segun su peso
-		UnionFind unionFind = new UnionFind(numVertices); //Se crean las componentes conexas iniciales
+		Collections.sort(aristas);
+		UnionFind unionFind = new UnionFind(numVertices);
 		List<Arista> agm = new ArrayList<>();
 		for (Arista arista : aristas) {
 			int origen = arista.getOrigen();
 			int destino = arista.getDestino();
-			if (!unionFind.find(origen, destino)) { //Estan en la misma componente conexa?
+			if (!unionFind.find(origen, destino)) {
 				agm.add(arista);
-				unionFind.union(origen, destino); //Apuntar a la misma raiz
+				unionFind.union(origen, destino);
 			}
 		}
-		return agm; //Lista de aristas del arbol generador minimo
+		return agm; 
 	}
 }
