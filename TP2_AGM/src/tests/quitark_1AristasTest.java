@@ -28,13 +28,6 @@ public class quitark_1AristasTest {
 		assertEquals(aristas.size()-(cantRegiones-1), grafo.quitarK_1Aristas(aristas, 3).size());
 	}
 	
-//	@Test
-//	public void quitarAristasSizeIncorrectoTest() {
-//		List<Arista> aristas = crearListaAristas();
-//		int cantRegiones = 2;
-//		assertEquals(aristas.size()-(cantRegiones-1), grafo.quitarK_1Aristas(aristas, 3).size());
-//	}
-	
 	@Test(expected = IllegalArgumentException.class)
 	public void cantRegionesNegativaTest() {
 		List<Arista> aristas = crearListaAristas();
@@ -54,11 +47,6 @@ public class quitark_1AristasTest {
 		List<Arista> aristas = crearListaAristas();
 		int cantRegiones = 0;
 		grafo.quitarK_1Aristas(aristas, cantRegiones);
-	}
-	
-	@Test
-	public void noContieneAristaEliminadaTest() {
-		
 	}
 	
 	private List<Arista> crearListaAristas() {
