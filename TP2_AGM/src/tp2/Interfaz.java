@@ -50,7 +50,7 @@ public class Interfaz {
 	private JLabel cartel_error, l_sumaPesos, cartel_error2, l_y, agregarPeso, l_indice;
 	private JButton bot_generar, bot_agregar, bot_reiniciar;
 	private JTextPane infoProvincias;
-	private int cantProvincias, cantAristas, cantRegiones;
+	private int cantProvincias, cantAristas, cantRegiones, numDevuelto;
 	private Color naranja, rojo;
 	private JLabel l_cantRegiones;
 	private LectorTxt lector;
@@ -72,9 +72,6 @@ public class Interfaz {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public Interfaz() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -145,6 +142,7 @@ public class Interfaz {
 					verificarTextPanels();
 					agregarPesoArista();
 					regiones.setEnabled(false);
+					cartel_error2.setVisible(false);
 				}
 				catch (IllegalArgumentException e2) {
 					cartel_error.setText("No pueden estar vacios!");
@@ -165,7 +163,16 @@ public class Interfaz {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					cantRegiones = Integer.parseInt(regiones.getText());
-					ejecutarAGM();
+					try {
+						if (grafo.getCantAristasConPeso() != cantAristas) {
+							throw new RuntimeException();
+						}
+						ejecutarAGM();
+					}
+					catch (RuntimeException e3) {
+						cartel_error2.setText("No se agregaron todas las similaridades");
+						cartel_error2.setVisible(true);
+					}
 				}
 				catch (IllegalArgumentException e1) {
 					cartel_error.setText("# de regiones no validas!");
@@ -304,7 +311,7 @@ public class Interfaz {
 		text_peso.setEnabled(false);
 		panel2.add(text_peso);
 		
-		cantAristas = 45;
+		cantAristas = 46;
 		labels = new ArrayList<JLabel>();
 		for (int i = 0; i < cantAristas; i++) {
 			JLabel label = new JLabel();
@@ -371,15 +378,17 @@ public class Interfaz {
 	}
 	
 	private void agregarPesoArista() {
-		if (grafo.agregarPesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == -1) {
+		numDevuelto = grafo.agregarPesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText()));
+		
+		if (numDevuelto == -1) {
 			cartel_error.setText("No son limitrofes!");
 			cartel_error.setVisible(true);
 		}
-		else if (grafo.agregarPesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == -2) {
+		else if (numDevuelto == -2) {
 			cartel_error.setText("Indice no puede ser 0!");
 			cartel_error.setVisible(true);
 		}
-		else if (grafo.agregarPesoArista(Integer.parseInt(text_p1.getText()), Integer.parseInt(text_p2.getText()), Integer.parseInt(text_peso.getText())) == 2) {
+		else if (numDevuelto == 2) {
 			cartel_error.setText("No tienen relacion!");
 			cartel_error.setVisible(true);
 		}

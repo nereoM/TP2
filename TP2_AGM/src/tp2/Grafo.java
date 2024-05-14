@@ -7,7 +7,7 @@ import java.util.List;
 public class Grafo {
 
 	private int[][] matrizDePesos;
-	private int numVertices;
+	private int numVertices, cantAristasConPeso;
 	private boolean[][] A;
 	private Kruskal kruskal;
 
@@ -19,6 +19,7 @@ public class Grafo {
 		this.numVertices = matrizDePesos.length;
 		this.A = new boolean[vertices][vertices];
 		this.kruskal = new Kruskal();
+		this.cantAristasConPeso = 0;
 		inicializarMatrizAdyPesos();
 		inicializarMatrizAdy();
 	}
@@ -88,11 +89,16 @@ public class Grafo {
 			}
 			agregarPesoAristaAux(p1, p2, peso);
 			System.out.println("se agrego arista con peso " + peso);
+			cantAristasConPeso++;
 			return 1;
 		}
 		catch (IllegalArgumentException e) {
 			return 2;
 		}
+	}
+	
+	public int getCantAristasConPeso() {
+		return cantAristasConPeso;
 	}
 	
 	private void verificarVertice(int i)
